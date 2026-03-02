@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Aether Weather</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="weather.css">
+</head>
+<body class="theme-sunny">
+
+<div class="particle-layer" id="particleLayer"></div>
+
+<div class="app" id="app">
+  <div class="loading-wrap" id="loadingWrap">
+    <div class="spinner"></div>
+    <div class="loading-text">Fetching weather data…</div>
+  </div>
+  <div id="content" style="display:none"></div>
+</div>
+
+<script src="weather.js"></script>
+</body>
+</html>

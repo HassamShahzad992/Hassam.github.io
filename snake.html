@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"/>
+<title>SYNAPSE</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Syne+Mono&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="snake.css">
+
+</head>
+<body>
+
+<canvas id="bg-canvas"></canvas>
+<div class="screen-flash" id="sf"></div>
+
+<div class="shell">
+
+  <!-- ══ HOME ══ -->
+  <div class="screen" id="homeScreen">
+    <div class="home-top">
+      <div class="wordmark">SYNAPSE</div>
+      <div class="tagline">Neural Snake Protocol</div>
+      <div class="pulse-ring"></div>
+    </div>
+
+    <div class="home-panel">
+      <div class="panel-stripe"></div>
+      <div class="home-body">
+
+        <div class="stats-row">
+          <div class="stat-box">
+            <div class="stat-v" id="bestDisplay">0</div>
+            <div class="stat-k">Best Score</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-v" id="gamesDisplay">0</div>
+            <div class="stat-k">Games Played</div>
+          </div>
+        </div>
+
+        <div class="speed-label">Speed Protocol</div>
+        <div class="speed-row">
+          <div class="sp-pill" data-speed="slow" onclick="setSp(this)">RECON<br/><span style="font-size:0.58rem;color:var(--dim)">Slow</span></div>
+          <div class="sp-pill on" data-speed="normal" onclick="setSp(this)">ASSAULT<br/><span style="font-size:0.58rem;color:var(--dim)">Normal</span></div>
+          <div class="sp-pill" data-speed="fast" onclick="setSp(this)">OMEGA<br/><span style="font-size:0.58rem;color:var(--dim)">Fast</span></div>
+        </div>
+
+        <div class="controls">
+          <div class="key"><kbd>↑↓←→</kbd> Move</div>
+          <div class="key"><kbd>W A S D</kbd> Move</div>
+          <div class="key"><kbd>P</kbd> Pause</div>
+        </div>
+
+        <button class="play-btn" onclick="startGame()">◈ INITIALIZE PROTOCOL</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ GAME ══ -->
+  <div class="screen" id="gameScreen" hidden>
+    <div class="game-hud">
+      <div>
+        <div class="hud-score" id="hudScore">0</div>
+        <div style="font-size:0.58rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--dim);margin-top:3px;">Score</div>
+      </div>
+      <div class="hud-right">
+        <div class="hud-chip">
+          <div>
+            <div class="hud-chip-val" id="hudLen">3</div>
+            <div class="hud-chip-lbl">Length</div>
+          </div>
+        </div>
+        <div class="hud-chip">
+          <div>
+            <div class="hud-chip-val" id="hudBest">0</div>
+            <div class="hud-chip-lbl">Best</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="board-wrap">
+      <canvas id="gameCanvas"></canvas>
+      <div class="game-overlay" id="startOverlay">
+        <div class="ov-label">Systems Online</div>
+        <div class="ov-title">SYNAPSE</div>
+        <div style="font-size:0.8rem;color:var(--dim);letter-spacing:0.06em;margin:4px 0;">Navigate the neural grid</div>
+        <button class="ov-btn primary" onclick="beginRound()" style="margin-top:8px;">START ▶</button>
+      </div>
+      <div class="game-overlay" id="pauseOverlay" hidden>
+        <div class="ov-label">Protocol Suspended</div>
+        <div class="ov-title">PAUSED</div>
+        <div class="ov-btns">
+          <button class="ov-btn ghost" onclick="goHome()">Exit</button>
+          <button class="ov-btn primary" onclick="resume()">Resume ▶</button>
+        </div>
+      </div>
+      <div class="game-overlay" id="deathOverlay" hidden>
+        <div class="ov-label">Sequence Terminated</div>
+        <div class="ov-title" style="background:linear-gradient(120deg,var(--g3),var(--g1));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">NEURAL DEATH</div>
+        <div class="ov-score-big" id="finalScore">0</div>
+        <div class="ov-new-best" id="newBestTag" hidden>⚡ NEW RECORD ⚡</div>
+        <div class="ov-stats-row">
+          <div class="ov-stat"><div class="ov-stat-v" id="dLen">3</div><div class="ov-stat-k">Length</div></div>
+          <div class="ov-stat"><div class="ov-stat-v" id="dFood">0</div><div class="ov-stat-k">Eaten</div></div>
+          <div class="ov-stat"><div class="ov-stat-v" id="dTime">0s</div><div class="ov-stat-k">Survived</div></div>
+        </div>
+        <div class="ov-btns">
+          <button class="ov-btn ghost" onclick="goHome()">Home</button>
+          <button class="ov-btn primary" onclick="beginRound()">Retry ↻</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- D-Pad mobile -->
+    <div class="dpad">
+      <div class="dpad-row"><div class="dpad-btn" id="dpUp" onclick="dpDir(0,-1)">▲</div></div>
+      <div class="dpad-row">
+        <div class="dpad-btn" onclick="dpDir(-1,0)">◀</div>
+        <div class="dpad-btn" style="opacity:0.2;pointer-events:none;">●</div>
+        <div class="dpad-btn" onclick="dpDir(1,0)">▶</div>
+      </div>
+      <div class="dpad-row"><div class="dpad-btn" onclick="dpDir(0,1)">▼</div></div>
+    </div>
+  </div>
+
+</div>
+
+<script src="snake.js"></script>
+</body>
+</html>

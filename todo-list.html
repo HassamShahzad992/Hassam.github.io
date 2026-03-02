@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Todo — Get Things Done</title>
+  <link rel="stylesheet" href="todo-list.css">
+</head>
+<body>
+<div class="app">
+  <div class="header">
+    <h1>✦ My Tasks</h1>
+    <p id="greeting"></p>
+    <div class="stats">
+      <div class="stat"><div class="stat-num" id="total-count">0</div><div class="stat-label">Total</div></div>
+      <div class="stat"><div class="stat-num" id="done-count" style="color:var(--accent2)">0</div><div class="stat-label">Done</div></div>
+      <div class="stat"><div class="stat-num" id="pending-count" style="color:#ffa94d">0</div><div class="stat-label">Pending</div></div>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" id="progress" style="width:0%"></div></div>
+  </div>
+  <div class="input-area">
+    <div class="input-wrap">
+      <span class="input-icon">📝</span>
+      <input type="text" id="task-input" placeholder="Add a new task…" autocomplete="off"/>
+    </div>
+    <select class="priority-select" id="priority-select">
+      <option value="low">🟢 Low</option>
+      <option value="medium" selected>🟡 Med</option>
+      <option value="high">🔴 High</option>
+    </select>
+    <button class="add-btn" id="add-btn">＋</button>
+  </div>
+  <div class="filters">
+    <button class="filter-btn active" data-filter="all">All</button>
+    <button class="filter-btn" data-filter="active">Active</button>
+    <button class="filter-btn" data-filter="done">Done</button>
+    <button class="filter-btn" data-filter="high">🔴 High</button>
+    <button class="filter-btn" data-filter="medium">🟡 Med</button>
+    <button class="filter-btn" data-filter="low">🟢 Low</button>
+    <button class="clear-btn" id="clear-done">Clear Done</button>
+  </div>
+  <div class="todo-list" id="todo-list"></div>
+</div>
+<script src="todo-list.js"></script>
+</body>
+</html>
