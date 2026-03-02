@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>QuizFlow</title>
+<link href="https://fonts.googleapis.com/css2?family=Clash+Display:wght@400;500;600;700&family=Satoshi:wght@300;400;500;700&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="quiz.css">
+</head>
+<body>
+
+<!-- ═══════════ HOME SCREEN ═══════════ -->
+<div class="screen" id="homeScreen">
+  <div class="home-card">
+    <div class="home-hero">
+      <div class="quiz-badge"><span class="quiz-badge-dot"></span>Quiz Challenge</div>
+      <h1 class="home-title">Test Your<br/><span>Knowledge</span> 🧠</h1>
+      <p class="home-desc">Pick a topic, choose your difficulty and see how you stack up. Answer fast, earn streaks, and beat your high score.</p>
+    </div>
+    <div class="home-body">
+      <div class="topic-label">Choose a Topic</div>
+      <div class="topics-grid" id="topicsGrid">
+        <div class="topic-card selected" data-topic="Science" onclick="selectTopic(this)">
+          <div class="topic-check">✓</div>
+          <span class="topic-icon">🔬</span>
+          <div class="topic-name">Science</div>
+          <div class="topic-count">10 questions</div>
+        </div>
+        <div class="topic-card" data-topic="History" onclick="selectTopic(this)">
+          <div class="topic-check">✓</div>
+          <span class="topic-icon">🏛️</span>
+          <div class="topic-name">History</div>
+          <div class="topic-count">10 questions</div>
+        </div>
+        <div class="topic-card" data-topic="Tech" onclick="selectTopic(this)">
+          <div class="topic-check">✓</div>
+          <span class="topic-icon">💻</span>
+          <div class="topic-name">Technology</div>
+          <div class="topic-count">10 questions</div>
+        </div>
+        <div class="topic-card" data-topic="Geography" onclick="selectTopic(this)">
+          <div class="topic-check">✓</div>
+          <span class="topic-icon">🌍</span>
+          <div class="topic-name">Geography</div>
+          <div class="topic-count">10 questions</div>
+        </div>
+      </div>
+
+      <div class="diff-label">Difficulty</div>
+      <div class="diff-row" id="diffRow">
+        <button class="diff-btn" onclick="selectDiff(this,'easy')">😊 Easy</button>
+        <button class="diff-btn active-medium" onclick="selectDiff(this,'medium')">🔥 Medium</button>
+        <button class="diff-btn" onclick="selectDiff(this,'hard')">💀 Hard</button>
+      </div>
+
+      <button class="start-btn" onclick="startQuiz()">
+        Start Quiz <span class="start-arrow">→</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ QUIZ SCREEN ═══════════ -->
+<div class="screen" id="quizScreen" style="display:none">
+  <div class="quiz-card">
+    <div class="quiz-topbar">
+      <div class="quiz-back" onclick="goHome()">←</div>
+      <div class="quiz-meta">
+        <div class="quiz-label" id="quizTopic">Science</div>
+        <div class="quiz-qnum" id="qNum">1 / 8</div>
+      </div>
+      <div class="quiz-lives" id="livesWrap">
+        <span class="life" id="l1">❤️</span>
+        <span class="life" id="l2">❤️</span>
+        <span class="life" id="l3">❤️</span>
+      </div>
+    </div>
+
+    <div class="progress-wrap">
+      <div class="progress-track">
+        <div class="progress-fill" id="progressFill" style="width:0%"></div>
+      </div>
+      <div class="progress-labels">
+        <span id="progressLabel">0 answered</span>
+        <span id="scoreLabel">Score: 0</span>
+      </div>
+    </div>
+
+    <div class="timer-wrap">
+      <div class="timer-icon">⏱</div>
+      <div class="timer-bar-track">
+        <div class="timer-bar" id="timerBar"></div>
+      </div>
+      <div class="timer-count" id="timerCount">20</div>
+    </div>
+
+    <div class="question-area">
+      <div class="q-category"><span class="q-category-dot"></span><span id="qCategory">Science</span></div>
+      <div class="question-text" id="questionText">Loading question...</div>
+    </div>
+
+    <div class="options-grid" id="optionsGrid"></div>
+
+    <div class="explanation-box" id="explanationBox">
+      <div class="exp-head" id="expHead">✓ Correct!</div>
+      <div class="exp-text" id="expText"></div>
+    </div>
+
+    <div class="quiz-bottom">
+      <button class="hint-btn" id="hintBtn" onclick="useHint()">
+        💡 Hint <div class="hint-count" id="hintCount">3</div>
+      </button>
+      <button class="next-btn" id="nextBtn" onclick="nextQuestion()">
+        Next <span class="next-arrow">→</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ RESULT SCREEN ═══════════ -->
+<div class="screen" id="resultScreen" style="display:none">
+  <div class="result-card">
+    <div class="result-hero">
+      <span class="result-emoji" id="resultEmoji">🏆</span>
+      <div class="result-grade" id="resultGrade">Outstanding!</div>
+      <div class="result-sub" id="resultSub">You really know your stuff!</div>
+      <div class="result-score-big" id="resultScore">0</div>
+      <div class="result-score-label">Total Points</div>
+    </div>
+
+    <div class="result-stats">
+      <div class="stat-box good">
+        <div class="stat-val" id="statCorrect">0</div>
+        <div class="stat-key">Correct</div>
+      </div>
+      <div class="stat-box bad">
+        <div class="stat-val" id="statWrong">0</div>
+        <div class="stat-key">Wrong</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-val" id="statTime">0s</div>
+        <div class="stat-key">Avg Speed</div>
+      </div>
+    </div>
+
+    <div class="result-breakdown">
+      <div class="breakdown-title">Score Breakdown</div>
+      <div class="breakdown-bar">
+        <span class="bar-label">Correct</span>
+        <div class="bar-track"><div class="bar-fill correct-bar" id="barCorrect" style="width:0%"></div></div>
+        <span class="bar-count" id="barCorrectN">0</span>
+      </div>
+      <div class="breakdown-bar">
+        <span class="bar-label">Wrong</span>
+        <div class="bar-track"><div class="bar-fill wrong-bar" id="barWrong" style="width:0%"></div></div>
+        <span class="bar-count" id="barWrongN">0</span>
+      </div>
+      <div class="breakdown-bar">
+        <span class="bar-label">Skipped</span>
+        <div class="bar-track"><div class="bar-fill skip-bar" id="barSkip" style="width:0%"></div></div>
+        <span class="bar-count" id="barSkipN">0</span>
+      </div>
+    </div>
+
+    <div class="result-actions">
+      <button class="btn-ghost" onclick="goHome()">← Home</button>
+      <button class="btn-solid" onclick="restartQuiz()">Play Again ↻</button>
+    </div>
+  </div>
+</div>
+
+<div class="streak-toast" id="streakToast">🔥 <span id="streakMsg">3x Streak!</span></div>
+
+<script src="quiz.js"></script>
+</body>
+</html>
